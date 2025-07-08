@@ -23,9 +23,14 @@ func Test_Authentication_Registration(t *testing.T) {
 
 	ctx := context.Background()
 	cfg := &config.Config{
-		AppEnv:   "test",
-		AppAddr:  "localhost:8080",
-		LogLevel: "info",
+		App: config.AppConfig{
+			Name:        "test-app",
+			Environment: "test",
+			LogLevel:    "info",
+		},
+		Server: config.ServerConfig{
+			Address: "localhost:8080",
+		},
 	}
 
 	usersService := NewMockUsers(ctrl)
@@ -260,9 +265,14 @@ func Test_Authentication_Login(t *testing.T) {
 
 	ctx := context.Background()
 	cfg := &config.Config{
-		AppEnv:   "test",
-		AppAddr:  "localhost:8080",
-		LogLevel: "info",
+		App: config.AppConfig{
+			Name:        "test-app",
+			Environment: "test",
+			LogLevel:    "info",
+		},
+		Server: config.ServerConfig{
+			Address: "localhost:8080",
+		},
 	}
 
 	usersService := NewMockUsers(ctrl)

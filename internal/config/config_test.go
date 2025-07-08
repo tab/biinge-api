@@ -36,9 +36,15 @@ func Test_LoadConfig(t *testing.T) {
 			args: []string{},
 			env:  map[string]string{},
 			expected: &Config{
-				AppEnv:        "test",
-				AppAddr:       "localhost:8080",
-				ClientURL:     "http://localhost:3000",
+				App: AppConfig{
+					Environment: "test",
+					Name:        "biinge",
+					ClientURL:   "http://localhost:3000",
+					LogLevel:    "info",
+				},
+				Server: ServerConfig{
+					Address: "localhost:8080",
+				},
 				DatabaseDSN:   "postgres://postgres:postgres@localhost:5432/biinge-test?sslmode=disable",
 				SecretKeyBase: "SECRET",
 				JWTSecretKey:  "SECRET",
@@ -61,9 +67,11 @@ func Test_LoadConfig(t *testing.T) {
 			flag.CommandLine = flag.NewFlagSet(tt.name, flag.ContinueOnError)
 			result := LoadConfig()
 
-			assert.Equal(t, tt.expected.AppEnv, result.AppEnv)
-			assert.Equal(t, tt.expected.AppAddr, result.AppAddr)
-			assert.Equal(t, tt.expected.ClientURL, result.ClientURL)
+			assert.Equal(t, tt.expected.App.Environment, result.App.Environment)
+			assert.Equal(t, tt.expected.App.Name, result.App.Name)
+			assert.Equal(t, tt.expected.App.ClientURL, result.App.ClientURL)
+			assert.Equal(t, tt.expected.App.LogLevel, result.App.LogLevel)
+			assert.Equal(t, tt.expected.Server.Address, result.Server.Address)
 			assert.Equal(t, tt.expected.DatabaseDSN, result.DatabaseDSN)
 			assert.Equal(t, tt.expected.SecretKeyBase, result.SecretKeyBase)
 			assert.Equal(t, tt.expected.JWTSecretKey, result.JWTSecretKey)

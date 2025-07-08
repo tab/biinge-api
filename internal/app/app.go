@@ -43,7 +43,7 @@ func registerHooks(
 ) {
 	lifecycle.Append(fx.Hook{
 		OnStart: func(ctx context.Context) error {
-			log.Info().Msgf("Starting server in %s environment at %s", cfg.AppEnv, cfg.AppAddr)
+			log.Info().Msgf("Starting server in %s environment at %s", cfg.App.Environment, cfg.Server.Address)
 
 			go func() {
 				if err := server.Run(); err != nil && err != http.ErrServerClosed {

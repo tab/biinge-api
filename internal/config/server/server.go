@@ -3,7 +3,6 @@ package server
 import (
 	"context"
 	"net/http"
-	"time"
 
 	"biinge-api/internal/config"
 )
@@ -20,11 +19,11 @@ type server struct {
 func NewServer(cfg *config.Config, appRouter http.Handler) Server {
 	return &server{
 		httpServer: &http.Server{
-			Addr:         cfg.AppAddr,
+			Addr:         cfg.Server.Address,
 			Handler:      appRouter,
-			ReadTimeout:  5 * time.Second,
-			WriteTimeout: 10 * time.Second,
-			IdleTimeout:  120 * time.Second,
+			ReadTimeout:  cfg.Server.ReadTimeout,  // 5 * time.Second
+			WriteTimeout: cfg.Server.WriteTimeout, // 10 * time.Second
+			IdleTimeout:  cfg.Server.IdleTimeout,  // 120 * time.Second
 		},
 	}
 }

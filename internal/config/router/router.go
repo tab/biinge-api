@@ -35,7 +35,7 @@ func NewRouter(
 	// NOTE: CORS - must be before other middlewares that might write headers
 	r.Use(
 		cors.Handler(cors.Options{
-			AllowedOrigins: []string{"http://*", cfg.ClientURL},
+			AllowedOrigins: []string{"http://*", cfg.App.ClientURL},
 			AllowedMethods: []string{"GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"},
 			AllowedHeaders: []string{"Accept", "Authorization", "Content-Type", "X-Request-ID", "X-Trace-ID"},
 			ExposedHeaders: []string{"X-Request-ID", "X-Trace-ID"},

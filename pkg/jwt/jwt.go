@@ -36,9 +36,9 @@ func (j *jwtService) Generate(payload Payload, duration time.Duration) (string, 
 	claims := Claims{
 		RegisteredClaims: jwt.RegisteredClaims{
 			ID:        payload.ID,
-			Issuer:    j.cfg.AppName,
+			Issuer:    j.cfg.App.Name,
 			Subject:   payload.Email,
-			Audience:  jwt.ClaimStrings{j.cfg.AppName},
+			Audience:  jwt.ClaimStrings{j.cfg.App.Name},
 			ExpiresAt: jwt.NewNumericDate(time.Now().Add(duration)),
 			IssuedAt:  jwt.NewNumericDate(time.Now()),
 			NotBefore: jwt.NewNumericDate(time.Now()),
