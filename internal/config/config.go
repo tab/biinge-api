@@ -43,7 +43,6 @@ type Config struct {
 	Server      ServerConfig
 	DatabaseDSN string
 	JWT         JWTConfig
-	LogLevel    string
 
 	TMDBConfig
 }
