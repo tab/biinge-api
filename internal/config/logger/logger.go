@@ -37,11 +37,11 @@ func NewLogger(cfg *config.Config) *Logger {
 	hostname, _ := os.Hostname()
 
 	log := zerolog.New(output).
-		Level(getLogLevel(cfg.LogLevel)).
+		Level(getLogLevel(cfg.App.LogLevel)).
 		With().
 		Timestamp().
-		Str("service", cfg.AppName).
-		Str("environment", cfg.AppEnv).
+		Str("service", cfg.App.Name).
+		Str("environment", cfg.App.Environment).
 		Str("host", hostname).
 		Logger()
 

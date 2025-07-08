@@ -25,9 +25,14 @@ func Test_AuthenticationController_Registration(t *testing.T) {
 	defer ctrl.Finish()
 
 	cfg := &config.Config{
-		AppEnv:   "test",
-		AppAddr:  "localhost:8080",
-		LogLevel: "info",
+		App: config.AppConfig{
+			Name:        "test-app",
+			Environment: "test",
+			LogLevel:    "info",
+		},
+		Server: config.ServerConfig{
+			Address: "localhost:8080",
+		},
 	}
 
 	authentication := services.NewMockAuthentication(ctrl)
@@ -184,9 +189,14 @@ func Test_AuthenticationController_Login(t *testing.T) {
 	defer ctrl.Finish()
 
 	cfg := &config.Config{
-		AppEnv:   "test",
-		AppAddr:  "localhost:8080",
-		LogLevel: "info",
+		App: config.AppConfig{
+			Name:        "test-app",
+			Environment: "test",
+			LogLevel:    "info",
+		},
+		Server: config.ServerConfig{
+			Address: "localhost:8080",
+		},
 	}
 
 	authentication := services.NewMockAuthentication(ctrl)

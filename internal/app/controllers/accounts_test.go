@@ -27,9 +27,14 @@ func Test_UsersController_Me(t *testing.T) {
 	defer ctrl.Finish()
 
 	cfg := &config.Config{
-		AppEnv:   "test",
-		AppAddr:  "localhost:8080",
-		LogLevel: "info",
+		App: config.AppConfig{
+			Name:        "test-app",
+			Environment: "test",
+			LogLevel:    "info",
+		},
+		Server: config.ServerConfig{
+			Address: "localhost:8080",
+		},
 	}
 
 	users := services.NewMockUsers(ctrl)
@@ -124,9 +129,14 @@ func Test_AccountsController_Update(t *testing.T) {
 	defer ctrl.Finish()
 
 	cfg := &config.Config{
-		AppEnv:   "test",
-		AppAddr:  "localhost:8080",
-		LogLevel: "info",
+		App: config.AppConfig{
+			Name:        "test-app",
+			Environment: "test",
+			LogLevel:    "info",
+		},
+		Server: config.ServerConfig{
+			Address: "localhost:8080",
+		},
 	}
 
 	users := services.NewMockUsers(ctrl)

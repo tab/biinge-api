@@ -23,15 +23,23 @@ func Test_Authentication_Registration(t *testing.T) {
 
 	ctx := context.Background()
 	cfg := &config.Config{
-		AppEnv:   "test",
-		AppAddr:  "localhost:8080",
-		LogLevel: "info",
+		App: config.AppConfig{
+			Name:        "test-app",
+			Environment: "test",
+			LogLevel:    "info",
+		},
+		Server: config.ServerConfig{
+			Address: "localhost:8080",
+		},
+		JWT: config.JWTConfig{
+			SecretKey: "test-secret-key",
+		},
 	}
 
 	usersService := NewMockUsers(ctrl)
 	jwtService := jwt.NewMockJwt(ctrl)
 	log := logger.NewLogger(cfg)
-	service := NewAuthentication(jwtService, usersService, log)
+	service := NewAuthentication(cfg, jwtService, usersService, log)
 
 	id, err := uuid.NewRandom()
 	assert.NoError(t, err)
@@ -60,11 +68,11 @@ func Test_Authentication_Registration(t *testing.T) {
 				jwtService.EXPECT().Generate(jwt.Payload{
 					ID:    id.String(),
 					Email: "john.doe@local",
-				}, AccessTokenDuration).Return("jwt-access-token", nil)
+				}, cfg.JWT.AccessTokenDuration).Return("jwt-access-token", nil)
 				jwtService.EXPECT().Generate(jwt.Payload{
 					ID:    id.String(),
 					Email: "john.doe@local",
-				}, RefreshTokenDuration).Return("jwt-refresh-token", nil)
+				}, cfg.JWT.RefreshTokenDuration).Return("jwt-refresh-token", nil)
 			},
 			params: &serializers.RegistrationRequestSerializer{
 				Login:      "john.doe",
@@ -95,11 +103,11 @@ func Test_Authentication_Registration(t *testing.T) {
 				jwtService.EXPECT().Generate(jwt.Payload{
 					ID:    id.String(),
 					Email: "john.doe@local",
-				}, AccessTokenDuration).Return("jwt-access-token", nil)
+				}, cfg.JWT.AccessTokenDuration).Return("jwt-access-token", nil)
 				jwtService.EXPECT().Generate(jwt.Payload{
 					ID:    id.String(),
 					Email: "john.doe@local",
-				}, RefreshTokenDuration).Return("jwt-refresh-token", nil)
+				}, cfg.JWT.RefreshTokenDuration).Return("jwt-refresh-token", nil)
 			},
 			params: &serializers.RegistrationRequestSerializer{
 				Login:      "john.doe",
@@ -193,7 +201,7 @@ func Test_Authentication_Registration(t *testing.T) {
 					Appearance: "dark",
 				}, nil)
 
-				jwtService.EXPECT().Generate(gomock.Any(), AccessTokenDuration).Return("", jwt.ErrFailedGenerateAccessToken)
+				jwtService.EXPECT().Generate(gomock.Any(), cfg.JWT.AccessTokenDuration).Return("", jwt.ErrFailedGenerateAccessToken)
 			},
 			params: &serializers.RegistrationRequestSerializer{
 				Login:      "john.doe",
@@ -220,8 +228,8 @@ func Test_Authentication_Registration(t *testing.T) {
 					Appearance: "dark",
 				}, nil)
 
-				jwtService.EXPECT().Generate(gomock.Any(), AccessTokenDuration).Return("jwt-access-token", nil)
-				jwtService.EXPECT().Generate(gomock.Any(), RefreshTokenDuration).Return("", jwt.ErrFailedGenerateRefreshToken)
+				jwtService.EXPECT().Generate(gomock.Any(), cfg.JWT.AccessTokenDuration).Return("jwt-access-token", nil)
+				jwtService.EXPECT().Generate(gomock.Any(), cfg.JWT.RefreshTokenDuration).Return("", jwt.ErrFailedGenerateRefreshToken)
 			},
 			params: &serializers.RegistrationRequestSerializer{
 				Login:      "john.doe",
@@ -260,15 +268,23 @@ func Test_Authentication_Login(t *testing.T) {
 
 	ctx := context.Background()
 	cfg := &config.Config{
-		AppEnv:   "test",
-		AppAddr:  "localhost:8080",
-		LogLevel: "info",
+		App: config.AppConfig{
+			Name:        "test-app",
+			Environment: "test",
+			LogLevel:    "info",
+		},
+		Server: config.ServerConfig{
+			Address: "localhost:8080",
+		},
+		JWT: config.JWTConfig{
+			SecretKey: "test-secret-key",
+		},
 	}
 
 	usersService := NewMockUsers(ctrl)
 	jwtService := jwt.NewMockJwt(ctrl)
 	log := logger.NewLogger(cfg)
-	service := NewAuthentication(jwtService, usersService, log)
+	service := NewAuthentication(cfg, jwtService, usersService, log)
 
 	id, err := uuid.NewRandom()
 	assert.NoError(t, err)
@@ -299,11 +315,11 @@ func Test_Authentication_Login(t *testing.T) {
 				jwtService.EXPECT().Generate(jwt.Payload{
 					ID:    id.String(),
 					Email: "john.doe@local",
-				}, AccessTokenDuration).Return("jwt-access-token", nil)
+				}, cfg.JWT.AccessTokenDuration).Return("jwt-access-token", nil)
 				jwtService.EXPECT().Generate(jwt.Payload{
 					ID:    id.String(),
 					Email: "john.doe@local",
-				}, RefreshTokenDuration).Return("jwt-refresh-token", nil)
+				}, cfg.JWT.RefreshTokenDuration).Return("jwt-refresh-token", nil)
 			},
 			params: &serializers.LoginRequestSerializer{
 				Email:    "john.doe@local",
@@ -362,7 +378,7 @@ func Test_Authentication_Login(t *testing.T) {
 				jwtService.EXPECT().Generate(jwt.Payload{
 					ID:    id.String(),
 					Email: "john.doe@local",
-				}, AccessTokenDuration).Return("", jwt.ErrFailedGenerateAccessToken)
+				}, cfg.JWT.AccessTokenDuration).Return("", jwt.ErrFailedGenerateAccessToken)
 			},
 			params: &serializers.LoginRequestSerializer{
 				Email:    "john.doe@local",
@@ -387,11 +403,11 @@ func Test_Authentication_Login(t *testing.T) {
 				jwtService.EXPECT().Generate(jwt.Payload{
 					ID:    id.String(),
 					Email: "john.doe@local",
-				}, AccessTokenDuration).Return("jwt-access-token", nil)
+				}, cfg.JWT.AccessTokenDuration).Return("jwt-access-token", nil)
 				jwtService.EXPECT().Generate(jwt.Payload{
 					ID:    id.String(),
 					Email: "john.doe@local",
-				}, RefreshTokenDuration).Return("", jwt.ErrFailedGenerateRefreshToken)
+				}, cfg.JWT.RefreshTokenDuration).Return("", jwt.ErrFailedGenerateRefreshToken)
 			},
 			params: &serializers.LoginRequestSerializer{
 				Email:    "john.doe@local",

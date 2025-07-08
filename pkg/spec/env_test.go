@@ -18,8 +18,8 @@ func TestMain(m *testing.M) {
 
 func Test_LoadEnv(t *testing.T) {
 	type env struct {
-		AppEnv  string
-		AppAddr string
+		AppEnv     string
+		ServerAddr string
 	}
 
 	tests := []struct {
@@ -29,8 +29,8 @@ func Test_LoadEnv(t *testing.T) {
 		{
 			name: "Success",
 			expected: env{
-				AppEnv:  "test",
-				AppAddr: "localhost:8080",
+				AppEnv:     "test",
+				ServerAddr: "localhost:8080",
 			},
 		},
 	}
@@ -42,7 +42,7 @@ func Test_LoadEnv(t *testing.T) {
 
 			hash := []struct{ key, value string }{
 				{"GO_ENV", tt.expected.AppEnv},
-				{"APP_ADDRESS", tt.expected.AppAddr},
+				{"SERVER_ADDRESS", tt.expected.ServerAddr},
 			}
 
 			for _, h := range hash {

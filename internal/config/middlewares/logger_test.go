@@ -13,9 +13,14 @@ import (
 
 func Test_NewLoggerMiddleware(t *testing.T) {
 	cfg := &config.Config{
-		AppEnv:   "test",
-		AppAddr:  "localhost:8080",
-		LogLevel: "info",
+		App: config.AppConfig{
+			Name:        "test-app",
+			Environment: "test",
+			LogLevel:    "info",
+		},
+		Server: config.ServerConfig{
+			Address: "localhost:8080",
+		},
 	}
 	log := logger.NewLogger(cfg)
 
@@ -25,9 +30,14 @@ func Test_NewLoggerMiddleware(t *testing.T) {
 
 func Test_LoggerMiddleware_Logger(t *testing.T) {
 	cfg := &config.Config{
-		AppEnv:   "test",
-		AppAddr:  "localhost:8080",
-		LogLevel: "info",
+		App: config.AppConfig{
+			Name:        "test-app",
+			Environment: "test",
+			LogLevel:    "info",
+		},
+		Server: config.ServerConfig{
+			Address: "localhost:8080",
+		},
 	}
 	log := logger.NewLogger(cfg)
 	middleware := NewLoggerMiddleware(log)

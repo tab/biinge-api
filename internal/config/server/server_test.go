@@ -20,8 +20,17 @@ func Test_NewServer(t *testing.T) {
 	defer ctrl.Finish()
 
 	cfg := &config.Config{
-		AppEnv:  "test",
-		AppAddr: "localhost:8080",
+		App: config.AppConfig{
+			Name:        "test-app",
+			Environment: "test",
+			LogLevel:    "info",
+		},
+		Server: config.ServerConfig{
+			Address:      "localhost:8080",
+			ReadTimeout:  5 * time.Second,
+			WriteTimeout: 10 * time.Second,
+			IdleTimeout:  120 * time.Second,
+		},
 	}
 
 	mockTraceMiddleware := middlewares.NewMockTraceMiddleware(ctrl)
@@ -70,17 +79,23 @@ func Test_NewServer(t *testing.T) {
 	s, ok := srv.(*server)
 	assert.True(t, ok)
 
-	assert.Equal(t, cfg.AppAddr, s.httpServer.Addr)
+	assert.Equal(t, cfg.Server.Address, s.httpServer.Addr)
 	assert.Equal(t, appRouter, s.httpServer.Handler)
-	assert.Equal(t, 5*time.Second, s.httpServer.ReadTimeout)
-	assert.Equal(t, 10*time.Second, s.httpServer.WriteTimeout)
-	assert.Equal(t, 120*time.Second, s.httpServer.IdleTimeout)
+	assert.Equal(t, cfg.Server.ReadTimeout, s.httpServer.ReadTimeout)
+	assert.Equal(t, cfg.Server.WriteTimeout, s.httpServer.WriteTimeout)
+	assert.Equal(t, cfg.Server.IdleTimeout, s.httpServer.IdleTimeout)
 }
 
 func Test_Server_RunAndShutdown(t *testing.T) {
 	cfg := &config.Config{
-		AppEnv:  "test",
-		AppAddr: "localhost:5000",
+		App: config.AppConfig{
+			Name:        "test-app",
+			Environment: "test",
+			LogLevel:    "info",
+		},
+		Server: config.ServerConfig{
+			Address: "localhost:5000",
+		},
 	}
 	handler := http.NewServeMux()
 	srv := NewServer(cfg, handler)

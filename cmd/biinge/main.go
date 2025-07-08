@@ -17,7 +17,7 @@ func main() {
 	fx.New(
 		fx.WithLogger(
 			func(log *logger.Logger) fxevent.Logger {
-				if cfg.LogLevel == config.DebugLevel {
+				if cfg.App.LogLevel == config.DebugLevel {
 					return &fxevent.ConsoleLogger{W: os.Stdout}
 				}
 				return fxevent.NopLogger

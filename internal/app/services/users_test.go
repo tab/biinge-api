@@ -21,9 +21,14 @@ func Test_Users_Create(t *testing.T) {
 
 	ctx := context.Background()
 	cfg := &config.Config{
-		AppEnv:   "test",
-		AppAddr:  "localhost:8080",
-		LogLevel: "info",
+		App: config.AppConfig{
+			Name:        "test-app",
+			Environment: "test",
+			LogLevel:    "info",
+		},
+		Server: config.ServerConfig{
+			Address: "localhost:8080",
+		},
 	}
 	repository := repositories.NewMockUserRepository(ctrl)
 	log := logger.NewLogger(cfg)
@@ -113,9 +118,14 @@ func Test_Users_Update(t *testing.T) {
 
 	ctx := context.Background()
 	cfg := &config.Config{
-		AppEnv:   "test",
-		AppAddr:  "localhost:8080",
-		LogLevel: "info",
+		App: config.AppConfig{
+			Name:        "test-app",
+			Environment: "test",
+			LogLevel:    "info",
+		},
+		Server: config.ServerConfig{
+			Address: "localhost:8080",
+		},
 	}
 	repository := repositories.NewMockUserRepository(ctrl)
 	log := logger.NewLogger(cfg)
@@ -207,9 +217,14 @@ func Test_Users_FindById(t *testing.T) {
 
 	ctx := context.Background()
 	cfg := &config.Config{
-		AppEnv:   "test",
-		AppAddr:  "localhost:8080",
-		LogLevel: "info",
+		App: config.AppConfig{
+			Name:        "test-app",
+			Environment: "test",
+			LogLevel:    "info",
+		},
+		Server: config.ServerConfig{
+			Address: "localhost:8080",
+		},
 	}
 	repository := repositories.NewMockUserRepository(ctrl)
 	log := logger.NewLogger(cfg)
@@ -281,9 +296,14 @@ func Test_Users_FindByLogin(t *testing.T) {
 
 	ctx := context.Background()
 	cfg := &config.Config{
-		AppEnv:   "test",
-		AppAddr:  "localhost:8080",
-		LogLevel: "info",
+		App: config.AppConfig{
+			Name:        "test-app",
+			Environment: "test",
+			LogLevel:    "info",
+		},
+		Server: config.ServerConfig{
+			Address: "localhost:8080",
+		},
 	}
 	repository := repositories.NewMockUserRepository(ctrl)
 	log := logger.NewLogger(cfg)
@@ -357,9 +377,14 @@ func Test_Users_FindByEmail(t *testing.T) {
 
 	ctx := context.Background()
 	cfg := &config.Config{
-		AppEnv:   "test",
-		AppAddr:  "localhost:8080",
-		LogLevel: "info",
+		App: config.AppConfig{
+			Name:        "test-app",
+			Environment: "test",
+			LogLevel:    "info",
+		},
+		Server: config.ServerConfig{
+			Address: "localhost:8080",
+		},
 	}
 	repository := repositories.NewMockUserRepository(ctrl)
 	log := logger.NewLogger(cfg)

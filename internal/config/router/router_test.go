@@ -18,8 +18,13 @@ func Test_HealthCheck(t *testing.T) {
 	defer ctrl.Finish()
 
 	cfg := &config.Config{
-		AppEnv:  "test",
-		AppAddr: "localhost:8080",
+		App: config.AppConfig{
+			Name:        "test-app",
+			Environment: "test",
+		},
+		Server: config.ServerConfig{
+			Address: "localhost:8080",
+		},
 	}
 
 	mockTraceMiddleware := middlewares.NewMockTraceMiddleware(ctrl)
