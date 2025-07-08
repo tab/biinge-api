@@ -48,7 +48,7 @@ func (j *jwtService) Generate(payload Payload, duration time.Duration) (string, 
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 
-	signedToken, err := token.SignedString([]byte(j.cfg.JWTSecretKey))
+	signedToken, err := token.SignedString([]byte(j.cfg.JWT.SecretKey))
 	if err != nil {
 		return "", err
 	}
@@ -64,7 +64,7 @@ func (j *jwtService) Verify(token string) (bool, error) {
 			if _, ok := t.Method.(*jwt.SigningMethodHMAC); !ok {
 				return false, ErrInvalidSigningMethod
 			}
-			return []byte(j.cfg.JWTSecretKey), nil
+			return []byte(j.cfg.JWT.SecretKey), nil
 		})
 
 	if err != nil {
@@ -86,7 +86,7 @@ func (j *jwtService) Decode(token string) (*Payload, error) {
 			if _, ok := t.Method.(*jwt.SigningMethodHMAC); !ok {
 				return false, ErrInvalidSigningMethod
 			}
-			return []byte(j.cfg.JWTSecretKey), nil
+			return []byte(j.cfg.JWT.SecretKey), nil
 		})
 
 	if err != nil {

@@ -24,6 +24,12 @@ type ServerConfig struct {
 	IdleTimeout  time.Duration
 }
 
+type JWTConfig struct {
+	SecretKey            string
+	AccessTokenDuration  time.Duration
+	RefreshTokenDuration time.Duration
+}
+
 type TMDBConfig struct {
 	BaseURL            string
 	BaseImageURL       string
@@ -37,7 +43,7 @@ type Config struct {
 	Server        ServerConfig
 	DatabaseDSN   string
 	SecretKeyBase string
-	JWTSecretKey  string
+	JWT           JWTConfig
 	LogLevel      string
 
 	TMDBConfig
@@ -74,7 +80,12 @@ func LoadConfig() *Config {
 
 		DatabaseDSN:   getEnvString("DATABASE_DSN"),
 		SecretKeyBase: getEnvString("SECRET_KEY_BASE"),
-		JWTSecretKey:  getEnvString("JWT_SECRET_KEY"),
+
+		JWT: JWTConfig{
+			SecretKey:            getEnvString("JWT_SECRET_KEY"),
+			AccessTokenDuration:  24 * time.Hour,
+			RefreshTokenDuration: 7 * 24 * time.Hour,
+		},
 
 		TMDBConfig: TMDBConfig{
 			BaseURL:            getEnvString("TMDB_BASE_URL"),

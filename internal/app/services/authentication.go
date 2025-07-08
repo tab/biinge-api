@@ -2,22 +2,19 @@ package services
 
 import (
 	"context"
-	"time"
 
 	"golang.org/x/crypto/bcrypt"
 
 	"biinge-api/internal/app/errors"
 	"biinge-api/internal/app/models"
 	"biinge-api/internal/app/serializers"
+	"biinge-api/internal/config"
 	"biinge-api/internal/config/logger"
 	"biinge-api/pkg/jwt"
 )
 
 const (
 	BcryptHashCost = 14
-
-	AccessTokenDuration  = 24 * time.Hour
-	RefreshTokenDuration = 7 * 24 * time.Hour
 )
 
 type Authentication interface {
@@ -26,13 +23,15 @@ type Authentication interface {
 }
 
 type authentication struct {
+	cfg   *config.Config
 	jwt   jwt.Jwt
 	users Users
 	log   *logger.Logger
 }
 
-func NewAuthentication(jwt jwt.Jwt, users Users, log *logger.Logger) Authentication {
+func NewAuthentication(cfg *config.Config, jwt jwt.Jwt, users Users, log *logger.Logger) Authentication {
 	return &authentication{
+		cfg:   cfg,
 		jwt:   jwt,
 		users: users,
 		log:   log.WithComponent("AuthenticationService"),
@@ -89,7 +88,7 @@ func (a *authentication) Registration(ctx context.Context, params *serializers.R
 	accessToken, err := a.jwt.Generate(jwt.Payload{
 		ID:    user.ID.String(),
 		Email: user.Email,
-	}, AccessTokenDuration)
+	}, a.cfg.JWT.AccessTokenDuration)
 	if err != nil {
 		a.log.Error().Err(err).Msg("Failed to generate access token")
 		return nil, jwt.ErrFailedGenerateAccessToken
@@ -98,7 +97,7 @@ func (a *authentication) Registration(ctx context.Context, params *serializers.R
 	refreshToken, err := a.jwt.Generate(jwt.Payload{
 		ID:    user.ID.String(),
 		Email: user.Email,
-	}, RefreshTokenDuration)
+	}, a.cfg.JWT.RefreshTokenDuration)
 	if err != nil {
 		a.log.Error().Err(err).Msg("Failed to generate refresh token")
 		return nil, jwt.ErrFailedGenerateRefreshToken
@@ -132,7 +131,7 @@ func (a *authentication) Login(ctx context.Context, params *serializers.LoginReq
 	accessToken, err := a.jwt.Generate(jwt.Payload{
 		ID:    user.ID.String(),
 		Email: user.Email,
-	}, AccessTokenDuration)
+	}, a.cfg.JWT.AccessTokenDuration)
 	if err != nil {
 		a.log.Error().Err(err).Msg("Failed to generate access token")
 		return nil, jwt.ErrFailedGenerateAccessToken
@@ -141,7 +140,7 @@ func (a *authentication) Login(ctx context.Context, params *serializers.LoginReq
 	refreshToken, err := a.jwt.Generate(jwt.Payload{
 		ID:    user.ID.String(),
 		Email: user.Email,
-	}, RefreshTokenDuration)
+	}, a.cfg.JWT.RefreshTokenDuration)
 	if err != nil {
 		a.log.Error().Err(err).Msg("Failed to generate refresh token")
 		return nil, jwt.ErrFailedGenerateRefreshToken

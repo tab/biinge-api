@@ -5,6 +5,7 @@ import (
 	"log"
 	"os"
 	"testing"
+	"time"
 
 	"github.com/stretchr/testify/assert"
 
@@ -47,7 +48,11 @@ func Test_LoadConfig(t *testing.T) {
 				},
 				DatabaseDSN:   "postgres://postgres:postgres@localhost:5432/biinge-test?sslmode=disable",
 				SecretKeyBase: "SECRET",
-				JWTSecretKey:  "SECRET",
+				JWT: JWTConfig{
+					SecretKey:            "SECRET",
+					AccessTokenDuration:  24 * time.Hour,
+					RefreshTokenDuration: 7 * 24 * time.Hour,
+				},
 				TMDBConfig: TMDBConfig{
 					BaseURL:            "https://api.themoviedb.org/3",
 					BaseImageURL:       "https://image.tmdb.org/t/p",
@@ -74,7 +79,9 @@ func Test_LoadConfig(t *testing.T) {
 			assert.Equal(t, tt.expected.Server.Address, result.Server.Address)
 			assert.Equal(t, tt.expected.DatabaseDSN, result.DatabaseDSN)
 			assert.Equal(t, tt.expected.SecretKeyBase, result.SecretKeyBase)
-			assert.Equal(t, tt.expected.JWTSecretKey, result.JWTSecretKey)
+			assert.Equal(t, tt.expected.JWT.SecretKey, result.JWT.SecretKey)
+			assert.Equal(t, tt.expected.JWT.AccessTokenDuration, result.JWT.AccessTokenDuration)
+			assert.Equal(t, tt.expected.JWT.RefreshTokenDuration, result.JWT.RefreshTokenDuration)
 			assert.Equal(t, tt.expected.TMDBConfig.BaseURL, result.TMDBConfig.BaseURL)
 			assert.Equal(t, tt.expected.TMDBConfig.BaseImageURL, result.TMDBConfig.BaseImageURL)
 			assert.Equal(t, tt.expected.TMDBConfig.APIReadAccessToken, result.TMDBConfig.APIReadAccessToken)
