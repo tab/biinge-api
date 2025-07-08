@@ -39,12 +39,11 @@ type TMDBConfig struct {
 }
 
 type Config struct {
-	App           AppConfig
-	Server        ServerConfig
-	DatabaseDSN   string
-	SecretKeyBase string
-	JWT           JWTConfig
-	LogLevel      string
+	App         AppConfig
+	Server      ServerConfig
+	DatabaseDSN string
+	JWT         JWTConfig
+	LogLevel    string
 
 	TMDBConfig
 }
@@ -78,8 +77,7 @@ func LoadConfig() *Config {
 			IdleTimeout:  120 * time.Second,
 		},
 
-		DatabaseDSN:   getEnvString("DATABASE_DSN"),
-		SecretKeyBase: getEnvString("SECRET_KEY_BASE"),
+		DatabaseDSN: getEnvString("DATABASE_DSN"),
 
 		JWT: JWTConfig{
 			SecretKey:            getEnvString("JWT_SECRET_KEY"),

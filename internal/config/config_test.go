@@ -46,8 +46,7 @@ func Test_LoadConfig(t *testing.T) {
 				Server: ServerConfig{
 					Address: "localhost:8080",
 				},
-				DatabaseDSN:   "postgres://postgres:postgres@localhost:5432/biinge-test?sslmode=disable",
-				SecretKeyBase: "SECRET",
+				DatabaseDSN: "postgres://postgres:postgres@localhost:5432/biinge-test?sslmode=disable",
 				JWT: JWTConfig{
 					SecretKey:            "SECRET",
 					AccessTokenDuration:  24 * time.Hour,
@@ -78,7 +77,6 @@ func Test_LoadConfig(t *testing.T) {
 			assert.Equal(t, tt.expected.App.LogLevel, result.App.LogLevel)
 			assert.Equal(t, tt.expected.Server.Address, result.Server.Address)
 			assert.Equal(t, tt.expected.DatabaseDSN, result.DatabaseDSN)
-			assert.Equal(t, tt.expected.SecretKeyBase, result.SecretKeyBase)
 			assert.Equal(t, tt.expected.JWT.SecretKey, result.JWT.SecretKey)
 			assert.Equal(t, tt.expected.JWT.AccessTokenDuration, result.JWT.AccessTokenDuration)
 			assert.Equal(t, tt.expected.JWT.RefreshTokenDuration, result.JWT.RefreshTokenDuration)
