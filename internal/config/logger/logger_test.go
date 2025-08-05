@@ -20,72 +20,88 @@ func Test_NewLogger(t *testing.T) {
 		{
 			name: "Debug level",
 			cfg: &config.Config{
-				AppName:  "test-app",
-				AppEnv:   "test",
-				LogLevel: DebugLevel,
+				App: config.AppConfig{
+					Name:        "test-app",
+					Environment: "test",
+					LogLevel:    DebugLevel,
+				},
 			},
 			expected: zerolog.DebugLevel,
 		},
 		{
 			name: "Info level",
 			cfg: &config.Config{
-				AppName:  "test-app",
-				AppEnv:   "test",
-				LogLevel: InfoLevel,
+				App: config.AppConfig{
+					Name:        "test-app",
+					Environment: "test",
+					LogLevel:    InfoLevel,
+				},
 			},
 			expected: zerolog.InfoLevel,
 		},
 		{
 			name: "Warn level",
 			cfg: &config.Config{
-				AppName:  "test-app",
-				AppEnv:   "test",
-				LogLevel: WarnLevel,
+				App: config.AppConfig{
+					Name:        "test-app",
+					Environment: "test",
+					LogLevel:    WarnLevel,
+				},
 			},
 			expected: zerolog.WarnLevel,
 		},
 		{
 			name: "Error level",
 			cfg: &config.Config{
-				AppName:  "test-app",
-				AppEnv:   "test",
-				LogLevel: ErrorLevel,
+				App: config.AppConfig{
+					Name:        "test-app",
+					Environment: "test",
+					LogLevel:    ErrorLevel,
+				},
 			},
 			expected: zerolog.ErrorLevel,
 		},
 		{
 			name: "Fatal level",
 			cfg: &config.Config{
-				AppName:  "test-app",
-				AppEnv:   "test",
-				LogLevel: FatalLevel,
+				App: config.AppConfig{
+					Name:        "test-app",
+					Environment: "test",
+					LogLevel:    FatalLevel,
+				},
 			},
 			expected: zerolog.FatalLevel,
 		},
 		{
 			name: "Panic level",
 			cfg: &config.Config{
-				AppName:  "test-app",
-				AppEnv:   "test",
-				LogLevel: PanicLevel,
+				App: config.AppConfig{
+					Name:        "test-app",
+					Environment: "test",
+					LogLevel:    PanicLevel,
+				},
 			},
 			expected: zerolog.PanicLevel,
 		},
 		{
 			name: "Trace level",
 			cfg: &config.Config{
-				AppName:  "test-app",
-				AppEnv:   "test",
-				LogLevel: TraceLevel,
+				App: config.AppConfig{
+					Name:        "test-app",
+					Environment: "test",
+					LogLevel:    TraceLevel,
+				},
 			},
 			expected: zerolog.TraceLevel,
 		},
 		{
 			name: "Default level when empty",
 			cfg: &config.Config{
-				AppName:  "test-app",
-				AppEnv:   "test",
-				LogLevel: "",
+				App: config.AppConfig{
+					Name:        "test-app",
+					Environment: "test",
+					LogLevel:    "",
+				},
 			},
 			expected: zerolog.InfoLevel,
 		},
@@ -105,9 +121,11 @@ func Test_Logger_WithComponent(t *testing.T) {
 	var buf bytes.Buffer
 
 	cfg := &config.Config{
-		AppName:  "test-app",
-		AppEnv:   "test",
-		LogLevel: "debug",
+		App: config.AppConfig{
+			Name:        "test-app",
+			Environment: "test",
+			LogLevel:    "debug",
+		},
 	}
 
 	logger := NewLogger(cfg)
@@ -130,9 +148,11 @@ func Test_Logger_WithRequestId(t *testing.T) {
 	var buf bytes.Buffer
 
 	cfg := &config.Config{
-		AppName:  "test-app",
-		AppEnv:   "test",
-		LogLevel: "debug",
+		App: config.AppConfig{
+			Name:        "test-app",
+			Environment: "test",
+			LogLevel:    "debug",
+		},
 	}
 
 	logger := NewLogger(cfg)
@@ -152,9 +172,11 @@ func Test_Logger_WithTraceId(t *testing.T) {
 	var buf bytes.Buffer
 
 	cfg := &config.Config{
-		AppName:  "test-app",
-		AppEnv:   "test",
-		LogLevel: "debug",
+		App: config.AppConfig{
+			Name:        "test-app",
+			Environment: "test",
+			LogLevel:    "debug",
+		},
 	}
 
 	logger := NewLogger(cfg)
@@ -174,9 +196,11 @@ func Test_Logger_Debug(t *testing.T) {
 	var buf bytes.Buffer
 
 	cfg := &config.Config{
-		AppName:  "test-app",
-		AppEnv:   "test",
-		LogLevel: "debug",
+		App: config.AppConfig{
+			Name:        "test-app",
+			Environment: "test",
+			LogLevel:    "debug",
+		},
 	}
 
 	logger := NewLogger(cfg)
@@ -195,9 +219,11 @@ func Test_Logger_Info(t *testing.T) {
 	var buf bytes.Buffer
 
 	cfg := &config.Config{
-		AppName:  "test-app",
-		AppEnv:   "test",
-		LogLevel: "info",
+		App: config.AppConfig{
+			Name:        "test-app",
+			Environment: "test",
+			LogLevel:    "info",
+		},
 	}
 
 	logger := NewLogger(cfg)
@@ -216,9 +242,11 @@ func Test_Logger_Warn(t *testing.T) {
 	var buf bytes.Buffer
 
 	cfg := &config.Config{
-		AppName:  "test-app",
-		AppEnv:   "test",
-		LogLevel: "warn",
+		App: config.AppConfig{
+			Name:        "test-app",
+			Environment: "test",
+			LogLevel:    "warn",
+		},
 	}
 
 	logger := NewLogger(cfg)
@@ -237,9 +265,11 @@ func Test_Logger_Error(t *testing.T) {
 	var buf bytes.Buffer
 
 	cfg := &config.Config{
-		AppName:  "test-app",
-		AppEnv:   "test",
-		LogLevel: "error",
+		App: config.AppConfig{
+			Name:        "test-app",
+			Environment: "test",
+			LogLevel:    "error",
+		},
 	}
 
 	logger := NewLogger(cfg)

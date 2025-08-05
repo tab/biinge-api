@@ -36,9 +36,9 @@ func (j *jwtService) Generate(payload Payload, duration time.Duration) (string, 
 	claims := Claims{
 		RegisteredClaims: jwt.RegisteredClaims{
 			ID:        payload.ID,
-			Issuer:    j.cfg.AppName,
+			Issuer:    j.cfg.App.Name,
 			Subject:   payload.Email,
-			Audience:  jwt.ClaimStrings{j.cfg.AppName},
+			Audience:  jwt.ClaimStrings{j.cfg.App.Name},
 			ExpiresAt: jwt.NewNumericDate(time.Now().Add(duration)),
 			IssuedAt:  jwt.NewNumericDate(time.Now()),
 			NotBefore: jwt.NewNumericDate(time.Now()),
@@ -48,7 +48,7 @@ func (j *jwtService) Generate(payload Payload, duration time.Duration) (string, 
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 
-	signedToken, err := token.SignedString([]byte(j.cfg.JWTSecretKey))
+	signedToken, err := token.SignedString([]byte(j.cfg.JWT.SecretKey))
 	if err != nil {
 		return "", err
 	}
@@ -64,7 +64,7 @@ func (j *jwtService) Verify(token string) (bool, error) {
 			if _, ok := t.Method.(*jwt.SigningMethodHMAC); !ok {
 				return false, ErrInvalidSigningMethod
 			}
-			return []byte(j.cfg.JWTSecretKey), nil
+			return []byte(j.cfg.JWT.SecretKey), nil
 		})
 
 	if err != nil {
@@ -86,7 +86,7 @@ func (j *jwtService) Decode(token string) (*Payload, error) {
 			if _, ok := t.Method.(*jwt.SigningMethodHMAC); !ok {
 				return false, ErrInvalidSigningMethod
 			}
-			return []byte(j.cfg.JWTSecretKey), nil
+			return []byte(j.cfg.JWT.SecretKey), nil
 		})
 
 	if err != nil {

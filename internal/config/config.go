@@ -10,25 +10,39 @@ import (
 
 const DebugLevel = "debug"
 
+type AppConfig struct {
+	Name        string
+	Environment string
+	LogLevel    string
+	ClientURL   string
+}
+
+type ServerConfig struct {
+	Address      string
+	ReadTimeout  time.Duration
+	WriteTimeout time.Duration
+	IdleTimeout  time.Duration
+}
+
+type JWTConfig struct {
+	SecretKey            string
+	AccessTokenDuration  time.Duration
+	RefreshTokenDuration time.Duration
+}
+
 type TMDBConfig struct {
-	BaseURL      string
-	BaseImageURL string
-
+	BaseURL            string
+	BaseImageURL       string
 	APIReadAccessToken string
-
-	Locale  string
-	Timeout time.Duration
+	Locale             string
+	Timeout            time.Duration
 }
 
 type Config struct {
-	AppEnv        string
-	AppName       string
-	AppAddr       string
-	ClientURL     string
-	DatabaseDSN   string
-	SecretKeyBase string
-	JWTSecretKey  string
-	LogLevel      string
+	App         AppConfig
+	Server      ServerConfig
+	DatabaseDSN string
+	JWT         JWTConfig
 
 	TMDBConfig
 }
@@ -49,14 +63,26 @@ func LoadConfig() *Config {
 	}
 
 	return &Config{
-		AppEnv:        env,
-		AppName:       getEnvString("APP_NAME"),
-		AppAddr:       getEnvString("APP_ADDRESS"),
-		ClientURL:     getEnvString("CLIENT_URL"),
-		DatabaseDSN:   getEnvString("DATABASE_DSN"),
-		SecretKeyBase: getEnvString("SECRET_KEY_BASE"),
-		JWTSecretKey:  getEnvString("JWT_SECRET_KEY"),
-		LogLevel:      getEnvString("LOG_LEVEL"),
+		App: AppConfig{
+			Environment: env,
+			Name:        getEnvString("APP_NAME"),
+			ClientURL:   getEnvString("CLIENT_URL"),
+			LogLevel:    getEnvString("LOG_LEVEL"),
+		},
+		Server: ServerConfig{
+			Address:      getEnvString("SERVER_ADDRESS"),
+			ReadTimeout:  5 * time.Second,
+			WriteTimeout: 10 * time.Second,
+			IdleTimeout:  120 * time.Second,
+		},
+
+		DatabaseDSN: getEnvString("DATABASE_DSN"),
+
+		JWT: JWTConfig{
+			SecretKey:            getEnvString("JWT_SECRET_KEY"),
+			AccessTokenDuration:  24 * time.Hour,
+			RefreshTokenDuration: 7 * 24 * time.Hour,
+		},
 
 		TMDBConfig: TMDBConfig{
 			BaseURL:            getEnvString("TMDB_BASE_URL"),
