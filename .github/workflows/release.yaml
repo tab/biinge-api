@@ -11,7 +11,7 @@ jobs:
       contents: read
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: actions/setup-go@v5
         with:
           go-version: '1.24.1'
@@ -46,7 +46,7 @@ jobs:
         ports:
           - 5432:5432
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: actions/setup-go@v5
         with:
           go-version: '1.24.1'
@@ -70,7 +70,7 @@ jobs:
     steps:
       - name: Checkout code
         # NOTE: https://github.com/actions/checkout/releases/tag/v4.2.2
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        uses: actions/checkout@ff7abcd0c3c05ccf6adc123a8cd1fd4fb30fb493
       - name: Extract version from tag
         id: version
         run: echo "value=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
@@ -110,7 +110,7 @@ jobs:
       GO_ENV: production
       DATABASE_DSN: ${{ secrets.DATABASE_DSN }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: actions/setup-go@v5
         with:
           go-version: '1.24.1'
